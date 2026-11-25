@@ -1,0 +1,14 @@
+
+package com.workmanagement.backend.connection.dto
+
+data class ConnectionRequestDto(
+    val requesterId: Long,
+    val receiverId: Long
+)
+
+data class ConnectionResponseDto(
+    val id: Long,
+    val requesterId: Long,
+    val receiverId: Long,
+    val status: String
+)
