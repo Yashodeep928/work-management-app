@@ -12,3 +12,8 @@ data class ConnectionResponseDto(
     val receiverId: Long,
     val status: String
 )
+
+
+data class AcceptConnectionRequest(
+    val receiverId: Long
+)

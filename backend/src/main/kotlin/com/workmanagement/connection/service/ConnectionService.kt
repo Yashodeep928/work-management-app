@@ -1,6 +1,6 @@
 
 package com.workmanagement.backend.connection.service
-
+import org.springframework.transaction.annotation.Transactional
 import com.workmanagement.backend.connection.Connection
 import com.workmanagement.backend.connection.dto.*
 import com.workmanagement.backend.connection.repository.ConnectionRepository
@@ -74,4 +74,49 @@ class ConnectionService(
             status = saved.status
         )
     }
+
+
+
+
+@Transactional
+fun acceptRequest(
+    connectionId: Long,
+    request: AcceptConnectionRequest
+): ConnectionResponseDto {
+
+    val connection = connectionRepository
+        .findById(connectionId)
+        .orElseThrow {
+            ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Connection request not found"
+            )
+        }
+
+    if (connection.receiverId != request.receiverId) {
+        throw ResponseStatusException(
+            HttpStatus.FORBIDDEN,
+            "Only the receiver can accept this request"
+        )
+    }
+
+    if (connection.status != "PENDING") {
+        throw ResponseStatusException(
+            HttpStatus.CONFLICT,
+            "Connection request is not pending"
+        )
+    }
+
+    connection.status = "ACCEPTED"
+
+    val saved = connectionRepository.save(connection)
+
+    return ConnectionResponseDto(
+        id = requireNotNull(saved.id),
+        requesterId = saved.requesterId,
+        receiverId = saved.receiverId,
+        status = saved.status
+    )
+}
+
 }

@@ -19,4 +19,15 @@ class ConnectionController(
     ): ConnectionResponseDto {
         return connectionService.sendRequest(request)
     }
+
+
+@PatchMapping("/{id}/accept")
+fun acceptRequest(
+    @PathVariable("id") id: Long,
+    @RequestBody request: AcceptConnectionRequest
+): ConnectionResponseDto {
+
+    return connectionService.acceptRequest(id, request)
+}
+
 }
