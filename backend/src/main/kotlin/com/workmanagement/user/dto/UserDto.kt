@@ -12,3 +12,5 @@ data class UserResponse(
     val name: String,
     val email: String
 )
+
+data class UserSearchResult(val id: Long, val name: String, val connected: Boolean)

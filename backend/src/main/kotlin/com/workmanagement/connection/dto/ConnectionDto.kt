@@ -17,3 +17,7 @@ data class ConnectionResponseDto(
 data class AcceptConnectionRequest(
     val receiverId: Long
 )
+
+data class ConnectUserRequest(val receiverId: Long)
+
+data class ConnectedUserDto(val id: Long, val name: String)

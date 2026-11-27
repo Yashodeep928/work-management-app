@@ -12,6 +12,8 @@ kotlin {
 }
 dependencies {
     implementation(project(":shared"))
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.kotlinx.coroutines.core)
 
     implementation(libs.androidx.activity.compose)
 
@@ -29,6 +31,8 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        val apiUrl = providers.gradleProperty("workManagementApiUrl").orElse("http://10.0.2.2:8081").get()
+        buildConfigField("String", "API_URL", "\"$apiUrl\"")
     }
     packaging {
         resources {
@@ -50,5 +54,6 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
